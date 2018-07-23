@@ -15,10 +15,7 @@ rule SysInternals_Tool_Anomaly {
       date = "2016-12-06"
    strings:
       $s1 = "Software\\Sysinternals\\%s" fullword ascii
-
-      $n1 = "Mark Russinovich" wide
-
-      $nfp1 = "<<<Obsolete>>>" fullword wide
+      $n1 = "Mark Russinovich" ascii wide
    condition:
-      ( uint16(0) == 0x5a4d and filesize < 1000KB and $s1 and not $n1 and not 1 of ($nfp*) )
+      ( uint16(0) == 0x5a4d and filesize < 1000KB and $s1 and not $n1 )
 }

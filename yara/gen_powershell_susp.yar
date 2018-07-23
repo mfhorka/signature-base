@@ -150,7 +150,7 @@ rule WScript_Shell_PowerShell_Combo {
       $p2 = "-ExecutionPolicy Bypass" fullword ascii
       $p3 = "[System.Convert]::FromBase64String(" ascii
    condition:
-      filesize < 400KB and $s1 and 1 of ($p*)
+      filesize < 400KB and $s1 and 2 of ($p*)
 }
 
 rule SUSP_PowerShell_String_K32_RemProcess {
