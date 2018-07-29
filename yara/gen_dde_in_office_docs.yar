@@ -31,6 +31,11 @@ rule Office_DDE_field {
 }
 */
 
+private rule office_extension {
+    condition:
+        extension matches /(doc|docx|docm|dotx|dotm|dot|xls|xlt|xlsx|xlsm|xltx|xltm|ppt|pot|pps|pptx|pptm|potm|potx|ppsx|ppsm)/i
+}
+
 rule Office_OLE_DDEAUTO {
    meta:
       description = "Detects DDE in MS Office documents"
@@ -41,7 +46,7 @@ rule Office_OLE_DDEAUTO {
    strings:
       $a = /\x13\s*DDEAUTO\b[^\x14]+/ nocase
    condition:
-      uint32be(0) == 0xD0CF11E0 and $a
+      uint32be(0) == 0xD0CF11E0 and office_extension and $a
 }
 
 rule Office_OLE_DDE {
@@ -54,5 +59,5 @@ rule Office_OLE_DDE {
    strings:
       $a = /\x13\s*DDE\b[^\x14]+/ nocase
    condition:
-      uint32be(0) == 0xD0CF11E0 and $a
+      uint32be(0) == 0xD0CF11E0 and office_extension and $a
 }
