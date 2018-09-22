@@ -2009,7 +2009,7 @@ ystem32\\lcsvsvc\.dll;80
 \\clearlog\.dll;70
 \\de_svr\.exe;70
 \\lancer\.dll;70
-\\regkey\.exe;70
+\\regkey\.exe;40
 \\Program Files\\Services\\iThemes\.dll;70
 
 # Threat actors leverage EternalBlue exploit to deliver non-WannaCry payloads https://goo.gl/OOB3mH
@@ -2106,7 +2106,7 @@ ystem32\\lcsvsvc\.dll;80
 # Cred Dumping
 \\(q32|q64|wceaux|w86|q86|quarkpwd[^\\]*|m64|m32|hash32|hash64|64|32|wce32|wce64|w32|w64|wce|p32|p64|ps32|ps64|mimikatz|mimilove|mm32|mm64|pw32|pw64|g32|g64|gs32|gs64|hash|hashdump|dumpsvc)\.exe;60;\\distlib\\
 \\(g64\-|\\g32\-|\\gsecdump\.exe|gcx64\.|\\gcx32\.|\\gec\.|\\gse\.exe);60
-\\pwhash;60;\\python\\
+\\pwhash;60;(\\python\\|\\site-packages\\)
 \\fgdump;60
 \\w32\.exe;50;site-packages
 \\w64\.exe;50;site-packages
@@ -2127,9 +2127,6 @@ ystem32\\lcsvsvc\.dll;80
 # Exe in RARSFX folder
 #\\RarSFX\d\\[^\\]{1,20}\.exe;50;(?i)(\\RarSFX\d\\lsetup\.exe|\\intiupdater\.exe)
 
-# Backdoor.Adwind search for a runkey using this legitimate but missplaced copy of java
-\\(Users|Documents and Settings)\\[^\\]{1,16}\\AppData\\Roaming\\Oracle\\bin\\javaw\.exe;70
-
 # Classic attacker staging folders
 [Cc]:\\(Recovery|Intel|Web)\\[^\\]{1,16}\.(exe|dll|vbs|ps1|bat);60
 #[Cc]:\\(Windows|Winnt)\\(Help|Web|Media|ime|Debug|Fonts)\\[^\\]{1,16}\.(exe|dll|vbs|ps1|bat);60;(?i)(\\WINDOWS\\IME\\im[^\\]*_1\\IM)
@@ -2137,7 +2134,7 @@ ystem32\\lcsvsvc\.dll;80
 \\(perflogs|perfdata)\\[^\\]{1,16}\.(exe|dll|vbs|ps1|bat);60
 
 # Generic startup persistence flagging
-#\\Start Menu\\Programs\\Startup\\[^\\]{1,16}\.(exe|dll|vbs|ps1|bat);60;\.exe\.lnk
+\\Start Menu\\Programs\\Startup\\[^\\]{1,16}\.(exe|dll|vbs|ps1|bat);60;\.exe\.lnk
 
 # Executable used by PlugX DLL side-loading in non-standard location
 #(?i)\\CamMute\.exe;60;(?i)\\Lenovo\\Communication Utility\\
@@ -3045,5 +3042,29 @@ ystem32\\Microsoft\\Protect\\Windows\\svchost.exe;80
 \\ProgramData\\pcawhere\\thinprobe\.exe;100
 \\ProgramData\\pcawhere\\thinhostprobedll\.dll;100
 \\ProgramData\\pcawhere\\config\.ini;100
+
+# Adwind JRAT
+\\AppData\\Roaming\\Oracle\\bin\\javaw\.exe;75
+\\AppData\\Roaming\\Oracle\\bin\\java\.exe;75
+\\AppData\\Local\\Temp\\Retrive[0-9]{18,19}\.vbs;100
+\\AppData\\Oracle\\bin\\javaw\.exe;60
+\\AppData\\Roaming\\Oracle\\javaw\.exe;80
+
+# Insikt Report https://www.recordedfuture.com/chinese-cyberespionage-operations/
+/usr/bin/ext4;70
+
+# Turla Outlook Backdoor https://www.welivesecurity.com/2018/08/22/turla-unique-outlook-backdoor/
+\\Microsoft\\Windows\\scawrdot\.db;100
+\\Microsoft\\Windows\\flobcsnd\.dat;100
+\\mapid\.tlb;60
+\\cbmsfgrc\.dat;60
+\\mswmpdat\.tlb;60
+
+# Lazarus - Operation Applejeus https://securelist.com/operation-applejeus/87553/
+:\\Recovery\\msn\.exe;80
+:\\Recovery\\msndll\.log;80
+\\Windows\\msn\.exe;80
+ystem32\\uploadmgrsvc\.dll;80
+ystem32\\uploadmgr\.dat;80
 
 # End
