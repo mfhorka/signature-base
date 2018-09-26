@@ -14,9 +14,12 @@ rule SysInternals_Tool_Anomaly {
       author = "Florian Roth"
       reference = "Internal Research"
       date = "2016-12-06"
+
    strings:
       $s1 = "Software\\Sysinternals\\%s" fullword ascii
       $n1 = "Mark Russinovich" ascii wide
+      $n2 = "Bryce Cogswell" ascii wide // alternative author
+
    condition:
-      ( uint16(0) == 0x5a4d and filesize < 1000KB and $s1 and not $n1 )
+      ( uint16(0) == 0x5a4d and filesize < 1000KB and $s1 and not 1 of ($n*) )
 }

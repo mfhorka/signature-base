@@ -39,7 +39,8 @@ rule iexplore_ANOMALY {
 		$win2003_win7_u3 = "translation" wide fullword nocase
 		$win2003_win7_u4 = "varfileinfo" wide fullword nocase
 	condition:
-		filename == "iexplore.exe"
+	  filename == "iexplore.exe"
+	  and filesize > 1KB
       and not filepath contains "teamviewer"
       and not 1 of ($win*) and not WINDOWS_UPDATE_BDC
 }
