@@ -186,9 +186,9 @@ rule APT_Malware_PutterPanda_MsUpdater_1 {
 		$s4 = "Invalid parameter" fullword ascii /* PEStudio Blacklist: strings */ /* score: '4.93' */ /* Goodware String - occured 69 times */
 		$s5 = "VirtualAllocEx" fullword ascii /* PEStudio Blacklist: strings */ /* score: '4.91' */ /* Goodware String - occured 95 times */
 		$s6 = "WriteProcessMemory" fullword ascii /* PEStudio Blacklist: strings */ /* score: '4.87' */ /* Goodware String - occured 131 times */
+	
 	condition:
-		( uint16(0) == 0x5a4d and 1 of ($x*) and 4 of ($s*) ) or
-		( 1 of ($x*) and all of ($s*) )
+		uint16(0) == 0x5a4d and 1 of ($x*) and all of them
 }
 
 rule APT_Malware_PutterPanda_MsUpdater_2 {

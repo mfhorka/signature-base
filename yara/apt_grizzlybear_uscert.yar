@@ -536,7 +536,7 @@ rule IMPLANT_3_v3 {
       $STR3 = "AgentKernel"
    condition:
       (uint16(0) == 0x5A4D or uint16(0) == 0xCFD0 or uint16(0) == 0xC3D4 or
-      uint32(0) == 0x46445025 or uint32(1) == 0x6674725C) and any of them
+      uint32(0) == 0x46445025 or uint32(1) == 0x6674725C) and 2 of them
 }
 
 rule IMPLANT_4_v1 {
@@ -1228,20 +1228,6 @@ rule IMPLANT_5_v2 {
       $key125 = { 540198C3D33A631801FE94E7CB5DA3A2D9BCBAE7C7C3112EDECB342F3F7DF793 }
       $key126 = { 7E905652CAB96ACBB7FEB2825B55243511DF1CD8A22D0680F83AAF37B8A7CB36 }
       $key127 = { 37218801DBF2CD92F07F154CD53981E6189DBFBACAC53BC200EAFAB891C5EEC8 }
-   condition:
-      any of them
-}
-
-rule IMPLANT_5_v3 {
-   meta:
-      description = "XTunnel Implant by APT28"
-      author = "US CERT"
-      reference = "https://www.us-cert.gov/ncas/current-activity/2017/02/10/Enhanced-Analysis-GRIZZLY-STEPPE"
-      date = "2017-02-10"
-      score = 85
-   strings:
-      $BYTES1 = { 0F AF C0 6? C0 07 00 00 00 2D 01 00 00 00 0F AF ?? 39 ?8 }
-      $BYTES2 = { 0F AF C0 6? C0 07 48 0F AF ?? 39 ?8 }
    condition:
       any of them
 }

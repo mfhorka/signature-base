@@ -17,7 +17,6 @@ rule TRITON_ICS_FRAMEWORK {
           $py_cnames_04 = " chassis " nocase ascii wide
 
           $py_tslibs_01 = "GetCpStatus" nocase ascii wide
-          $py_tslibs_03 = " sequence" nocase ascii wide
           $py_tslibs_04 = /import Ts(Hi|Low|Base)[^:alpha:]/ nocase ascii wide
           $py_tslibs_05 = /module\s?version/ nocase ascii wide
           $py_tslibs_07 = "prog_cnt" nocase ascii wide
@@ -26,13 +25,11 @@ rule TRITON_ICS_FRAMEWORK {
           $py_tsbase_02 = ".TsBase(" nocase ascii wide
 
           $py_tshi_01 = "TsHi.py" nocase ascii wide
-          $py_tshi_02 = "keystate" nocase ascii wide
           $py_tshi_03 = "GetProjectInfo" nocase ascii wide
           $py_tshi_04 = "GetProgramTable" nocase ascii wide
           $py_tshi_05 = "SafeAppendProgramMod" nocase ascii wide
 
           $py_tslow_01 = "TsLow.py" nocase ascii wide
-          $py_tslow_02 = "print_last_error" ascii nocase wide
           $py_tslow_03 = ".TsLow(" ascii nocase wide
           $py_tslow_05 = " TCM found" nocase ascii wide  
 
@@ -47,13 +44,12 @@ rule TRITON_ICS_FRAMEWORK {
           $py_sh_01 = "sh.pyc" nocase ascii wide
 
           $py_keyword_01 = " FAILURE" ascii wide
-          $py_keyword_02 = "symbol table" nocase ascii wide
 
           $py_TRIDENT_01 = "inject.bin" ascii nocase wide
           $py_TRIDENT_02 = "imain.bin" ascii nocase wide
 
       condition:
-          2 of ($python_*) and 7 of ($py_*) and filesize < 3MB
+          2 of ($python_*) and 8 of ($py_*) and filesize < 3MB
 }
 
 /*

@@ -39,7 +39,7 @@ condition:
 	(
 		pe.exports("InitializeChangeNotify") and
 		pe.exports("PasswordChangeNotify") and
-		math.entropy(0x400, filesize) >= 7.5
+		math.entropy(0x400, filesize) >= 7.7
 	))
 	and filesize < 1000000
 }
@@ -56,7 +56,7 @@ condition:
 	pe.exports("InitSecurityInterfaceA") and
 	pe.characteristics & pe.DLL and
 	(pe.machine == pe.MACHINE_AMD64 or pe.machine == pe.MACHINE_IA64) and
-	math.entropy(0x400, filesize) >= 7.5
+	math.entropy(0x400, filesize) >= 7.7
 }
 
 rule apt_ProjectSauron_MyTrampoline  {

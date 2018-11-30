@@ -184,7 +184,7 @@ rule GIFCloaked_Webshell_A {
 
       $fp1 = "<form name=\"social_form\""
    condition:
-      ( $magic at 0 ) and ( 1 of ($s*) )
+      ( $magic at 0 ) and ( 2 of ($s*) )
       and not 1 of ($fp*)
 }
 
@@ -307,6 +307,7 @@ rule mimikatz_lsass_mdmp
       author         = "Benjamin DELPY (gentilkiwi)"
    strings:
       $lsass         = "System32\\lsass.exe"   wide nocase
+      
    condition:
-      (uint32(0) == 0x504d444d) and $lsass and filesize > 50000KB and not filename matches /WER/
+      (uint32(0) == 0x504d444d) and filesize > 50000KB and $lsass and not filepath matches /WER/
 }

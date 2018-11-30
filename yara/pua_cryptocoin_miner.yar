@@ -9,9 +9,9 @@ rule CoinMiner_Strings {
       date = "2018-01-04"
    strings:
       $s1 = "stratum+tcp://" ascii
-      $s2 = "\"normalHashing\": true,"
+
    condition:
-      filesize < 600KB and 1 of them
+      uint16(0) == 0x5a4d and filesize < 600KB and 1 of them
 }
 
 rule CoinHive_Javascript_MoneroMiner {

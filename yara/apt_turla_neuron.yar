@@ -85,7 +85,7 @@ rule Nautilus_common_strings {
         $ = "3FDA3998-BEF5-426D-82D8-1A71F29ADDC3" ascii
         $ = "C:\\ProgramData\\Microsoft\\Windows\\Caches\\{%s}.2.ver0x0000000000000001.db" ascii
     condition:
-        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and 3 of them
+        (uint16(0) == 0x5A4D and uint16(uint32(0x3c)) == 0x4550) and 4 of them
 }
 
 /* Forensic Artifacts */
@@ -116,5 +116,5 @@ rule Nautilus_forensic_artificats {
         $ = "payload.x64.dll.system" fullword ascii
         $ = "service.x64.dll.system" fullword ascii
     condition:
-        1 of them
+        2 of them
 }

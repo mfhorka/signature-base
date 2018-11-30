@@ -27,14 +27,13 @@ rule SUSP_LNK_SuspiciousCommands {
       $s3 = " -w hidden " ascii wide
       $s4 = " -ep bypass " ascii wide
       $s5 = " -noni " ascii nocase wide
-      $s6 = " bypass " ascii wide
-      $s7 = " -noprofile " ascii wide
-      $s8 = ".DownloadString(" ascii wide
-      $s9 = ".DownloadFile(" ascii wide
-      $s10 = "IEX(" ascii wide
-      $s11 = "iex(" ascii wide
-      $s12 = "WScript.shell" ascii wide fullword nocase
-      $s13 = " -nop " ascii wide
+      $s6 = " -noprofile " ascii wide
+      $s7 = ".DownloadString(" ascii wide
+      $s8 = ".DownloadFile(" ascii wide
+      $s9 = "IEX(" ascii wide
+      $s10 = "iex(" ascii wide
+      $s11 = "WScript.shell" ascii wide fullword nocase
+      $s12 = " -nop " ascii wide
    condition:
       uint16(0) == 0x004c and 1 of them
 }

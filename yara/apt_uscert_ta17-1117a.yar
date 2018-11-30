@@ -53,7 +53,7 @@ rule REDLEAVES_CoreImplant_UniqueStrings {
         $unique4 = "red_autumnal_leaves_dllmain.dll" wide ascii
         $unique7 = "\\NamePipe_MoreWindows" wide ascii
     condition:
-      any of them
+      2 of them
 }
 
 rule PLUGX_RedLeaves {

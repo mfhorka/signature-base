@@ -35,6 +35,7 @@ rule Embedded_EXE_Cloaking {
                 )
                 and
                 for any i in (1..#mz): ( @a1 < ( @mz[i] + 200 ) or @a2 < ( @mz[i] + 200 ) )
+                and not filepath contains "$Txf"
 }
 
 /*
