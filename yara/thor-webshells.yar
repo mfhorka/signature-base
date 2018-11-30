@@ -7397,6 +7397,7 @@ rule installer {
 	condition:
 		all of them
 }
+
 rule uploader {
 	meta:
 		description = "Webshells Auto-generated - file uploader.php"
@@ -7408,6 +7409,7 @@ rule uploader {
 	condition:
 		all of them
 }
+
 rule FSO_s_remview_2 {
 	meta:
 		description = "Webshells Auto-generated - file remview.php"
