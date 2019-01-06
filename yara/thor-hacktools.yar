@@ -4277,7 +4277,7 @@ rule HKTL_shellpop_socat {
 
 rule HKTL_shellpop_Perl {
    meta:
-      description = "dropzone - file PerlUDP"
+      description = "Detects Shellpop Perl script"
       author = "Tobias Michalski"
       reference = "https://github.com/0x00-0x00/ShellPop"
       date = "2018-05-18"
@@ -4494,4 +4494,60 @@ rule HKTL_SqlMap_backdoor {
          uint32(0) == 0x2b8d9c07 or
          uint32(0) == 0x2b859c07 or
          uint32(0) == 0x28b59c07 ) and filesize < 2KB
+}
+
+rule HKTL_Lazagne_PasswordDumper_Dec18_1 {
+   meta:
+      description = "Detects password dumper Lazagne often used by middle eastern threat groups"
+      author = "Florian Roth"
+      license = "https://creativecommons.org/licenses/by-nc/4.0/"
+      reference = "https://www.symantec.com/blogs/threat-intelligence/seedworm-espionage-group"
+      date = "2018-12-11"
+      score = 85
+      hash1 = "1205f5845035e3ee30f5a1ced5500d8345246ef4900bcb4ba67ef72c0f79966c"
+      hash2 = "884e991d2066163e02472ea82d89b64e252537b28c58ad57d9d648b969de6a63"
+      hash3 = "bf8f30031769aa880cdbe22bc0be32691d9f7913af75a5b68f8426d4f0c7be50"
+   strings:
+      $s1 = "softwares.opera(" fullword ascii
+      $s2 = "softwares.mozilla(" fullword ascii
+      $s3 = "config.dico(" fullword ascii
+      $s4 = "softwares.chrome(" fullword ascii
+      $s5 = "softwares.outlook(" fullword ascii
+   condition:
+      uint16(0) == 0x5a4d and filesize < 17000KB and 1 of them
+}
+
+rule HKTL_Lazagne_Gen_18 {
+   meta:
+      description = "Detects Lazagne password extractor hacktool"
+      author = "Florian Roth"
+      reference = "https://github.com/AlessandroZ/LaZagne"
+      license = "https://creativecommons.org/licenses/by-nc/4.0/"
+      date = "2018-12-11"
+      score = 80
+      hash1 = "51121dd5fbdfe8db7d3a5311e3e9c904d644ff7221b60284c03347938577eecf"
+   strings:
+      $x1 = "lazagne.config.powershell_execute(" fullword ascii
+      $x2 = "creddump7.win32." ascii
+      $x3 = "lazagne.softwares.windows.hashdump" ascii
+      $x4 = ".softwares.memory.libkeepass.common(" ascii
+   condition:
+      2 of them
+}
+
+rule HKTL_NoPowerShell {
+   meta:
+      description = "Detects NoPowerShell hack tool"
+      author = "Florian Roth"
+      reference = "https://github.com/bitsadmin/nopowershell"
+      date = "2018-12-28"
+      hash1 = "2dad091dd00625762a7590ce16c3492cbaeb756ad0e31352a42751deb7cf9e70"
+   strings:
+      $x1 = "\\NoPowerShell.pdb" fullword ascii
+      $x2 = "Invoke-WmiMethod -Class Win32_Process -Name Create \"cmd" fullword wide
+      $x3 = "ls C:\\Windows\\System32 -Include *.exe | select -First 10 Name,Length" fullword wide
+      $x4 = "ls -Recurse -Force C:\\Users\\ -Include *.kdbx" fullword wide
+      $x5 = "NoPowerShell.exe" fullword wide
+   condition:
+      1 of them
 }

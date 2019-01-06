@@ -255,3 +255,32 @@ rule SUSP_Size_of_ASUS_TuningTool {
    condition:
       uint16(0) == 0x5a4d and filesize < 300KB and filesize > 70KB and all of them
 }
+
+rule SUSP_PiratedOffice_2007 {
+   meta:
+      description = "Detects an Office document that was created with a pirated version of MS Office 2007"
+      author = "Florian Roth"
+      reference = "https://twitter.com/pwnallthethings/status/743230570440826886?lang=en"
+      date = "2018-12-04"
+      score = 40
+      hash1 = "210448e58a50da22c0031f016ed1554856ed8abe79ea07193dc8f5599343f633"
+   strings:
+      $s7 = "<Company>Grizli777</Company>" ascii
+   condition:
+      uint16(0) == 0xcfd0 and filesize < 300KB and all of them
+}
+
+rule SUSP_Scheduled_Task_BigSize {
+   meta:
+      description = "Detects suspiciously big scheduled task XML file as seen in combination with embedded base64 encoded PowerShell code"
+      author = "Florian Roth"
+      reference = "Internal Research"
+      date = "2018-12-06"
+   strings:
+      $a0 = "<Task version=" ascii wide
+      $a1 = "xmlns=\"http://schemas.microsoft.com/windows/" ascii wide
+
+      $fp1 = "</Counter><Counter>" wide
+   condition:
+      uint16(0) == 0xfeff and filesize > 20KB and all of ($a*) and not 1 of ($fp*)
+}

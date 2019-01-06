@@ -183,7 +183,7 @@ rule SUSP_Script_Obfuscation_Char_Concat {
       date = "2018-10-04"
       hash1 = "b30cc10e915a23c7273f0838297e0d2c9f4fc0ac1f56100eef6479c9d036c12b"
    strings:
-      $s1 = "\"c\" & \"r\" & \"i\" & \"p\" & \"t\"" fullword ascii
+      $s1 = "\"c\" & \"r\" & \"i\" & \"p\" & \"t\"" ascii
    condition:
       1 of them
 }
@@ -197,7 +197,6 @@ rule SUSP_PowerShell_IEX_Download_Combo {
       hash1 = "13297f64a5f4dd9b08922c18ab100d3a3e6fdeab82f60a4653ab975b8ce393d5"
    strings:
       $x1 = "IEX ((new-object net.webclient).download" ascii nocase
-      $x2 = "IEX ((new-object net.webclient).download" ascii nocase
    condition:
       1 of them
 }
@@ -213,4 +212,19 @@ rule SUSP_Win32dll_String {
       $s1 = "win32dll.dll" fullword ascii
    condition:
       filesize < 60KB and all of them
+}
+
+rule SUSP_Modified_SystemExeFileName_in_File {
+   meta:
+      description = "Detecst a variant of a system file name often used by attackers to cloak their activity"
+      author = "Florian Roth"
+      reference = "https://www.symantec.com/blogs/threat-intelligence/seedworm-espionage-group"
+      date = "2018-12-11"
+      score = 65
+      hash1 = "5723f425e0c55c22c6b8bb74afb6b506943012c33b9ec1c928a71307a8c5889a"
+      hash2 = "f1f11830b60e6530b680291509ddd9b5a1e5f425550444ec964a08f5f0c1a44e"
+   strings:
+      $s1 = "svchosts.exe" fullword wide
+   condition:
+      uint16(0) == 0x5a4d and filesize < 200KB and 1 of them
 }
