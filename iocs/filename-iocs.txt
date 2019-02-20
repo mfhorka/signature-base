@@ -360,7 +360,7 @@ Temp\\dllhost\.exe;80
 Temp\\sechost\.exe;80
 AppData\\chkdbg.log;60
 AppData\\svchost\.exe;80
-Temp\\svchost\.exe;80
+temp\\svchost\.exe;80
 AppData\\conhost\.dll;80
 Temp\\conhost\.dll;80
 
@@ -635,7 +635,6 @@ AppData\\adobe\\adobe\.dat;65
 \\firef0x\.exe;45
 \\firefly\.exe;45
 \\firefo\.exe;45
-\\firefox_\.exe;45
 \\firefox2\.exe;45
 \\firefox32\.exe;45
 \\firefoxe\.exe;45
@@ -1837,7 +1836,7 @@ Temp\\rad[A-F0-9]{5}\.exe;70
 \\sfmsc\.exe;60
 \\dnslookup\.exe;60
 \\iissrv\.exe;60
-\\regsys.\exe ;60
+\\regsys\.exe;60
 \\smbinit\.exe;60
 
 # Unicode Left-to-Right Override Trick https://goo.gl/cHnBqP
@@ -2046,7 +2045,7 @@ ystem32\\lcsvsvc\.dll;80
 #([C-Zc-z]:|\\\\).{1,40}\\explorer\.exe$;65;(?i)(HKCR\\Applications|winsxs|WinSxS|WINXP|WINDOWS|Windows|i386|WINXP|WINDOWS|Win2k|WINNT|Windows|windows|%SystemRoot%|%system32%|CrashDumps)\\
 
 # Other missplaced stuff you probably want to be aware of
-#([C-Zc-z]:|\\\\).{1,40}\\(cmd|lsass|rundll|rundll32|net|net1|taskeng|conhost|powershell)\.exe;65;(?i)(HKCR\\Applications|System32|system32|SYSTEM32|winsxs|WinSxS|SysWOW64|SysWow64|syswow64|SYSNATIVE|dllcache|WINXP|WINDOWS|i386|anti-malware|%system32%|activation_config|Logging|ADDriver|cmd\.exe\.lnk)\\
+#([C-Zc-z]:|\\\\).{1,40}\\(cmd|lsass|rundll|rundll32|net|net1|taskeng|conhost|powershell)\.exe;65;(?i)(HKCR\\Applications|System32|system32|SYSTEM32|winsxs|WinSxS|SysWOW64|SysWow64|syswow64|SYSNATIVE|dllcache|WINXP|WINDOWS|i386|anti-malware|%system32%|activation_config|Logging|ADDriver|cmd\.exe\.lnk|CrashDumps)\\
 
 # Archivers on odd locations
 #\\rar(32|64)?\.exe;60;(?i)(\\WinRAR|\\wrar)
@@ -2564,7 +2563,7 @@ ystem32\\DumpExt\.dll;75
 \\powerkatz\.dll;50
 \\printer2\.exe;50
 \\printer3\.exe;50
-\\proc\.exe;50
+\\proc\.exe;50;(OraCli\\BIN\\proc\.exe|\\[Oo]racle\\)
 \\Program\.exe;50
 \\PROGRAMM\.exe;50
 \\ProNewXx\.exe;50
@@ -3080,5 +3079,22 @@ ystem32\\uploadmgr\.dat;80
 \\System32\\Tasks\\Microsoft\\WindowsDefenderSDK;60
 \\System32\\Tasks\\Microsoft\\WindowsMalwareDefenderSDK;60
 \\System32\\Tasks\\Microsoft\\WindowsMalwareByteSDK;60
+
+# Cold River report https://www.lastline.com/labsblog/threat-actor-cold-river-network-traffic-analysis-and-a-deep-dive-on-agent-drable/
+\\\.oracleServices\\Configure\.txt;100
+\\\.oracleServices\\svshost_serv\.doc;100
+\\\.oracleServices\\svshost_serv\.exe;100
+
+# NTDS.DIT in uncommon location https://blog.stealthbits.com/extracting-password-hashes-from-the-ntds-dit-file/
+[^s2S]\\ntds.dit;60
+
+# MAL HWP Incident Feb 19 https://sfkino.tistory.com/73
+\\Local\\Temp\\HimTray\.dll;75
+
+# AUS Parliament incident https://twitter.com/cyb3rops/status/1097423665472376832
+\\LuckyCat\.dll;80
+\\LuckyCat\.exe;80
+\\AppData\\Local\\Microsoft\\mm\.accdb;80
+\\AppData\\Roaming\\Microsoft\\mm\.accdb;80
 
 # End

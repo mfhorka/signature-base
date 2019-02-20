@@ -8126,6 +8126,7 @@ rule xssshell_save {
 	condition:
 		all of them
 }
+
 rule FSO_s_phpinj_2 {
 	meta:
 		description = "Webshells Auto-generated - file phpinj.php"
@@ -8505,7 +8506,7 @@ condition:
 rule JSP_Browser_APT_webshell {
 	meta:
 		description = "VonLoesch JSP Browser used as web shell by APT groups - jsp File browser 1.1a"
-		author = "F.Roth"
+		author = "Florian Roth"
 		date = "10.10.2014"
 		score = 60
 	strings:
@@ -8520,7 +8521,7 @@ rule JSP_Browser_APT_webshell {
 rule JSP_jfigueiredo_APT_webshell {
 	meta:
 		description = "JSP Browser used as web shell by APT groups - author: jfigueiredo"
-		author = "F.Roth"
+		author = "Florian Roth"
 		date = "12.10.2014"
 		score = 60
 		reference = "http://ceso.googlecode.com/svn/web/bko/filemanager/Browser.jsp"
@@ -8534,7 +8535,7 @@ rule JSP_jfigueiredo_APT_webshell {
 rule JSP_jfigueiredo_APT_webshell_2 {
 	meta:
 		description = "JSP Browser used as web shell by APT groups - author: jfigueiredo"
-		author = "F.Roth"
+		author = "Florian Roth"
 		date = "12.10.2014"
 		score = 60
 		reference = "http://ceso.googlecode.com/svn/web/bko/filemanager/"
@@ -9318,4 +9319,16 @@ rule WebShell_JexBoss_WAR_1 {
       $ = "jexws4.jspPK" fullword ascii
    condition:
       uint16(0) == 0x4b50 and filesize < 4KB and 1 of them
+}
+
+rule webshell_tinyasp {
+    meta:
+	author = "Jeff Beley"
+	hash1 = "1f29905348e136b66d4ff6c1494d6008ea13f9551ad5aa9b991893a31b37e452"
+	description = "Detects 24 byte ASP webshell and variations"
+	date = "2019-01-09"
+   strings:
+   	$s1 = "Execute Request" ascii wide nocase
+   condition:
+   	uint16(0) == 0x253c and filesize < 150 and 1 of them
 }

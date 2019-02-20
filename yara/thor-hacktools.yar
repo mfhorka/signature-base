@@ -42,7 +42,6 @@ rule Amplia_Security_Tool
       nodeepdive = 1
     strings:
       $a = "Amplia Security"
-      $b = "Hernan Ochoa"
       $c = "getlsasrvaddr.exe"
       $d = "Cannot get PID of LSASS.EXE"
       $e = "extract the TGT session key"
@@ -2987,29 +2986,6 @@ rule wce
       any of them
 }
 
-
-rule lsadump
-{
-   meta:
-      description      = "LSA dump programe (bootkey/syskey) - pwdump and others"
-      author         = "Benjamin DELPY (gentilkiwi)"
-
-   strings:
-      $str_sam_inc   = "\\Domains\\Account" ascii nocase
-      $str_sam_exc   = "\\Domains\\Account\\Users\\Names\\" ascii nocase
-      $hex_api_call_1   = { 41 b8 00 00 00 02 [0-64] (68 | ba) ff 07 0f 00 }
-      $hex_api_call_2   = { 68 00 00 00 02 [0-64] (68 | ba) ff 07 0f 00 }
-      $str_msv_lsa   = { 4c 53 41 53 52 56 2e 44 4c 4c 00 [0-32] 6d 73 76 31 5f 30 2e 64 6c 6c 00 }
-      $hex_bkey      = { 4b 53 53 4d [20-70] 05 00 01 00}
-
-      $fp1          = "Sysinternals" ascii
-      $fp2        = "Apple Inc." ascii wide
-   condition:
-      ( ($str_sam_inc and not $str_sam_exc) or $hex_api_call_1 or $hex_api_call_2 or $str_msv_lsa or $hex_bkey )
-      and not uint16(0) == 0x5a4d
-      and not 1 of ($fp*)
-}
-
 rule power_pe_injection
 {
    meta:
@@ -4550,4 +4526,31 @@ rule HKTL_NoPowerShell {
       $x5 = "NoPowerShell.exe" fullword wide
    condition:
       1 of them
+}
+rule HKTL_htran_go {
+   meta:
+      author = "Jeff Beley"
+      hash1 = "4acbefb9f7907c52438ebb3070888ddc8cddfe9e3849c9d0196173a422b9035f"
+      description = "Detects go based htran variant"
+      date = "2019-01-09"
+   strings:
+      $s1 = "https://github.com/cw1997/NATBypass" fullword ascii
+      $s2 = "-slave ip1:port1 ip2:port2" fullword ascii
+      $s3 = "-tran port1 ip:port2" fullword ascii
+   condition:
+      uint16(0) == 0x5a4d and filesize < 7000KB and 1 of them
+}
+
+rule SUSP_Katz_PDB {
+   meta:
+      description = "Detects suspicious PDB in file"
+      author = "Florian Roth"
+      reference = "Internal Research"
+      date = "2019-02-04"
+      hash1 = "6888ce8116c721e7b2fc3d7d594666784cf38a942808f35e309a48e536d8e305"
+   strings:
+      $s1 = /\\Release\\[a-z]{0,8}katz.pdb/
+      $s2 = /\\Debug\\[a-z]{0,8}katz.pdb/
+   condition:
+      uint16(0) == 0x5a4d and filesize < 6000KB and all of them
 }

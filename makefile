@@ -1,8 +1,9 @@
-YARA=3.5.0
+YARA=3.8.1
 CUR_DIR=${PWD}
 YARA_DIR=$(CUR_DIR)/yara
 BUILD_DIR=$(CUR_DIR)/build
 3RD_PARTY=$(CUR_DIR)/3rdparty
+MJOLNIR_DIR=$(CUR_DIR)/../mjolnir
 
 YAR_COMP_VARS=-d filename="XXX" -d filepath="XXX" -d extension="XXX" -d filetype="XXX" -d md5="XXX" -d id="1"
 YAR_SIGS=$(wildcard ./yara/*.yar)
@@ -15,6 +16,11 @@ clean: cleanbuild
 
 cleanbuild:
 	rm -rf $(BUILD_DIR)
+
+extractinfo:
+	python3 $(MJOLNIR_DIR)/mjolnir.py -d ./yara --metaexport -o sig-base-rules.temp
+	cat sig-base-rules.temp | sort > sig-base-rules.csv
+	rm -f sig-base-rules.temp
 
 prereq:
 	mkdir -p $(3RD_PARTY)/src
