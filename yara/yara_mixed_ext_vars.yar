@@ -265,7 +265,7 @@ rule mimikatz_lsass_mdmp
       author         = "Benjamin DELPY (gentilkiwi)"
    strings:
       $lsass         = "System32\\lsass.exe"   wide nocase
-      
+
    condition:
       (uint32(0) == 0x504d444d) and filesize > 50000KB and $lsass and not filepath matches /WER/
 }
@@ -293,7 +293,6 @@ rule lsadump {
       (($str_sam_inc and not $str_sam_exc) or $hex_api_call or $str_msv_lsa or $hex_bkey )
       and not 1 of ($fp*)
       and not filename contains "Regdat"
-      and not filetype == "EXE"
       and not filepath contains "Dr Watson"
       and not extension == "vbs"
 }
