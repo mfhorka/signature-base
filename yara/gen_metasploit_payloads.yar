@@ -220,7 +220,6 @@ rule Msfpayloads_msf_cmd {
 rule Msfpayloads_msf_9 {
    meta:
       description = "Metasploit Payloads - file msf.war - contents"
-      license = "https://creativecommons.org/licenses/by-nc/4.0/"
       author = "Florian Roth"
       reference = "Internal Research"
       date = "2017-02-09"
@@ -234,7 +233,9 @@ rule Msfpayloads_msf_9 {
 
       $x1 = "4d5a9000030000000" ascii
    condition:
-      4 of ($s*) or $x1 at 0
+      4 of ($s*) or (
+         uint32(0) == 0x61356434 and $x1 at 0
+      )
 }
 
 rule Msfpayloads_msf_10 {

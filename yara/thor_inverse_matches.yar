@@ -26,25 +26,6 @@ condition:
 
 /* Rules -------------------------------------------------------------------- */
 
-rule iexplore_ANOMALY {
-	meta:
-		license = "https://creativecommons.org/licenses/by-nc/4.0/"
-		author = "Florian Roth"
-		description = "Abnormal iexplore.exe - typical strings not found in file"
-		date = "23/04/2014"
-		score = 55
-	strings:
-		$win2003_win7_u1 = "IEXPLORE.EXE" wide nocase
-		$win2003_win7_u2 = "Internet Explorer" wide fullword
-		$win2003_win7_u3 = "translation" wide fullword nocase
-		$win2003_win7_u4 = "varfileinfo" wide fullword nocase
-	condition:
-	  filename == "iexplore.exe"
-	  and filesize > 1KB
-      and not filepath contains "teamviewer"
-      and not 1 of ($win*) and not WINDOWS_UPDATE_BDC
-}
-
 rule svchost_ANOMALY {
 	meta:
 		license = "https://creativecommons.org/licenses/by-nc/4.0/"
@@ -286,21 +267,23 @@ rule lsass_ANOMALY {
 }
 
 rule taskmgr_ANOMALY {
-	meta:
-		description = "Anomaly rule looking for certain strings in a system file (maybe false positive on certain systems) - file taskmgr.exe"
-		license = "https://creativecommons.org/licenses/by-nc/4.0/"
-		author = "Florian Roth"
-		reference = "not set"
-		date = "2015/03/16"
-		hash = "e8b4d84a28e5ea17272416ec45726964fdf25883"
-	strings:
-		$s0 = "Windows Task Manager" fullword wide
-		$s1 = "taskmgr.chm" fullword
-		$s2 = "TmEndTaskHandler::" ascii
+   meta:
+      description = "Anomaly rule looking for certain strings in a system file (maybe false positive on certain systems) - file taskmgr.exe"
+      author = "Florian Roth"
+      reference = "not set"
+      date = "2015/03/16"
+      nodeepdive = 1
+      hash = "e8b4d84a28e5ea17272416ec45726964fdf25883"
+   strings:
+      $s0 = "Windows Task Manager" fullword wide
+      $s1 = "taskmgr.chm" fullword
+      $s2 = "TmEndTaskHandler::" ascii
       $s3 = "CM_Request_Eject_PC" /* Win XP */
       $s4 = "NTShell Taskman Startup Mutex" fullword wide
-	condition:
-		( filename == "taskmgr.exe" or filename == "Taskmgr.exe" ) and not 1 of ($s*) and not WINDOWS_UPDATE_BDC
+   condition:
+      ( filename == "taskmgr.exe" or filename == "Taskmgr.exe" ) and not 1 of ($s*) and not WINDOWS_UPDATE_BDC
+      and filepath contains "C:\\"
+      and not filepath contains "Package_for_RollupFix"
 }
 
 /* removed 22 rules here */
@@ -335,11 +318,10 @@ rule APT_Cloaked_SuperScan
 		author = "Florian Roth"
 		score = 50
 	strings:
-		$magic = { 4d 5a }
 		$s0 = "SuperScan4.exe" wide fullword
 		$s1 = "Foundstone Inc." wide fullword
 	condition:
-		( $magic at 0 ) and $s0 and $s1 and not filename contains "superscan"
+		uint16(0) == 0x5a4d and $s0 and $s1 and not filename contains "superscan"
 }
 
 rule APT_Cloaked_ScanLine
@@ -351,12 +333,11 @@ rule APT_Cloaked_ScanLine
 		author = "Florian Roth"
 		score = 50
 	strings:
-		$magic = { 4d 5a }
 		$s0 = "ScanLine" wide fullword
 		$s1 = "Command line port scanner" wide fullword
 		$s2 = "sl.exe" wide fullword
 	condition:
-		( $magic at 0 ) and $s0 and $s1 and $s2 and not filename == "sl.exe"
+		uint16(0) == 0x5a4d and $s0 and $s1 and $s2 and not filename == "sl.exe"
 }
 
 rule SUSP_Renamed_Dot1Xtray {

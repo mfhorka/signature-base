@@ -482,8 +482,6 @@ rule Tiny_Network_Tool_Generic {
       hash1 = "cafc31d39c1e4721af3ba519759884b9"
       hash2 = "8e635b9a1e5aa5ef84bfa619bd2a1f92"
    strings:
-      $magic   = { 4d 5a }
-
       $s0 = "KERNEL32.DLL" fullword ascii
       $s1 = "CRTDLL.DLL" fullword ascii
       $s3 = "LoadLibraryA" fullword ascii
@@ -504,7 +502,7 @@ rule Tiny_Network_Tool_Generic {
       $z4 = "ToAscii" fullword ascii
 
    condition:
-      ( $magic at 0 ) and all of ($s*) and ( all of ($y*) or all of ($x*) or all of ($z*) ) and filesize < 15KB
+      uint16(0) == 0x5a4d and all of ($s*) and ( all of ($y*) or all of ($x*) or all of ($z*) ) and filesize < 15KB
 }
 
 rule Beastdoor_Backdoor {
@@ -662,7 +660,6 @@ rule CN_Hacktool_1433_Scanner {
       score = 40
       date = "12.10.2014"
    strings:
-      $magic = { 4d 5a }
       $s0 = "1433" wide fullword
       $s1 = "1433V" wide
       $s2 = "del Weak1.txt" ascii fullword
@@ -670,7 +667,7 @@ rule CN_Hacktool_1433_Scanner {
       $s4 = "del /s /Q C:\\Windows\\system32\\doors\\" fullword ascii
       $s5 = "!&start iexplore http://www.crsky.com/soft/4818.html)" fullword ascii
    condition:
-      ( $magic at 0 ) and all of ($s*)
+      uint16(0) == 0x5a4d and all of ($s*)
 }
 
 rule CN_Hacktool_1433_Scanner_Comp2 {
@@ -681,12 +678,11 @@ rule CN_Hacktool_1433_Scanner_Comp2 {
       score = 40
       date = "12.10.2014"
    strings:
-      $magic = { 4d 5a }
       $s0 = "1433" wide fullword
       $s1 = "1433V" wide
       $s2 = "UUUMUUUfUUUfUUUfUUUfUUUfUUUfUUUfUUUfUUUfUUUfUUUMUUU" ascii fullword
    condition:
-      ( $magic at 0 ) and all of ($s*)
+      uint16(0) == 0x5a4d and all of ($s*)
 }
 
 rule WCE_Modified_1_1014 {
@@ -1170,7 +1166,7 @@ rule Hacktools_CN_445_cmd {
       $s0 = "cs.exe %1" fullword ascii
       $s2 = "nc %1 4444" fullword ascii
    condition:
-      $bat at 0 and all of ($s*)
+      uint32(0) == 0x68636540 and $bat at 0 and all of ($s*)
 }
 
 rule Hacktools_CN_GOGOGO_Bat {
