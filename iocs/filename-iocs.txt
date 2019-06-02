@@ -2101,7 +2101,6 @@ ystem32\\lcsvsvc\.dll;80
 # Cred Dumping
 \\(q32|q64|wceaux|w86|q86|quarkpwd[^\\]*|m64|m32|hash32|hash64|64|32|wce32|wce64|w32|w64|wce|p32|p64|ps32|ps64|mimikatz|mimilove|mm32|mm64|pw32|pw64|g32|g64|gs32|gs64|hash|hashdump|dumpsvc)\.exe;60;\\distlib\\
 \\(g64\-|\\g32\-|\\gsecdump\.exe|gcx64\.|\\gcx32\.|\\gec\.|\\gse\.exe);60
-\\pwhash;60;(\\python\\|\\site-packages\\)
 \\fgdump;60
 \\w32\.exe;50;site-packages
 \\w64\.exe;50;site-packages
@@ -3096,5 +3095,18 @@ ystem32\\uploadmgr\.dat;80
 \\LuckyCat\.exe;80
 \\AppData\\Local\\Microsoft\\mm\.accdb;80
 \\AppData\\Roaming\\Microsoft\\mm\.accdb;80
+
+
+# Suspicious Indicators - Skript in Windows Folder
+C:\\Windows\\[^\\]{1,20}\.(js|ps1|vbs);50
+
+# Turla Malware macOS https://blog.malwarebytes.com/threat-analysis/2017/05/snake-malware-ported-windows-mac/
+/Library/Scripts/queue;80
+/Library/Scripts/installdp;80
+/Library/Scripts/installd.sh;80
+/Library/LaunchDaemons/com.adobe.update.plist;80
+
+# Turla Snake Malware https://www.welivesecurity.com/2019/05/29/turla-powershell-usage/
+\\Users\\Public\\iCore\.dat;100
 
 # End
